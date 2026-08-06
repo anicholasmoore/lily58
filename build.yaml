@@ -1,0 +1,17 @@
+---
+include:
+  - board: nice_nano_v2
+    shield: lily58_left nice_view_adapter nice_view
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_STUDIO_LOCKING=n
+    artifact-name: lily58_left
+
+  - board: nice_nano_v2
+    shield: lily58_right nice_view_adapter nice_view
+    artifact-name: lily58_right
+
+  # Flash this image to both halves before their normal firmware if Bluetooth
+  # pairings become stuck or the controllers were previously used elsewhere.
+  - board: nice_nano_v2
+    shield: settings_reset
+    artifact-name: settings_reset

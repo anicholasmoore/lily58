@@ -1,0 +1,20 @@
+# Local ZMK/west build state
+.build/
+.west/
+.zmk/
+build/
+modules/
+zephyr/
+
+# Generated firmware and downloaded CI artifacts
+firmware/
+*.uf2
+*.hex
+*.bin
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+.vscode/
+
+.zmk/

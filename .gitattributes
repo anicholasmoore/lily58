@@ -1,0 +1,4 @@
+*.conf text eol=lf
+*.keymap text eol=lf linguist-language=C
+*.yml text eol=lf
+*.yaml text eol=lf
