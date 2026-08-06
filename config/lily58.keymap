@@ -16,14 +16,14 @@
     behaviors {
         auto_shift: auto_shift {
             compatible = "zmk,behavior-hold-tap";
-            label = "AUTO_SHIFT";
+            display-name = "Auto Shift";
             bindings = <&kp>, <&kp>;
 
             #binding-cells = <2>;
+            // Tap for the normal letter; hold for its shifted counterpart.
             tapping-term-ms = <175>;
             quick-tap-ms = <0>;
             flavor = "tap-preferred";
-            require-prior-idle-ms = <80>;
         };
     };
 
@@ -42,9 +42,9 @@
 
             bindings = <
 &kp ESC        &kp N1               &kp N2  &kp N3    &kp N4    &kp N5                         &kp N6  &kp N7    &kp N8     &kp N9   &kp N0    &kp GRAVE
-&kp TAB        &auto_shift LS(Q) Q  &kp W   &kp E     &kp R     &kp T                          &kp Y   &kp U     &kp I      &kp O    &kp P     &kp MINUS
-&kp BACKSPACE  &auto_shift LS(A) A  &kp S   &kp D     &kp F     &kp G                          &kp H   &kp J     &kp K      &kp L    &kp SEMI  &kp SQT
-&kp LCTRL      &kp Z                &kp X   &kp C     &kp V     &kp B   &kp LBKT     &kp RBKT  &kp N   &kp M     &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
+&kp TAB        &auto_shift LS(Q) Q  &auto_shift LS(W) W  &auto_shift LS(E) E  &auto_shift LS(R) R  &auto_shift LS(T) T                                      &auto_shift LS(Y) Y  &auto_shift LS(U) U  &auto_shift LS(I) I  &auto_shift LS(O) O  &auto_shift LS(P) P  &kp MINUS
+&kp BACKSPACE  &auto_shift LS(A) A  &auto_shift LS(S) S  &auto_shift LS(D) D  &auto_shift LS(F) F  &auto_shift LS(G) G                                      &auto_shift LS(H) H  &auto_shift LS(J) J  &auto_shift LS(K) K  &auto_shift LS(L) L  &kp SEMI              &kp SQT
+&kp LCTRL      &auto_shift LS(Z) Z  &auto_shift LS(X) X  &auto_shift LS(C) C  &auto_shift LS(V) V  &auto_shift LS(B) B  &kp LBKT     &kp RBKT              &auto_shift LS(N) N  &auto_shift LS(M) M  &kp COMMA             &kp DOT               &kp FSLH  &kp RSHFT
                                             &kp LALT  &kp LGUI  &mo 1   &kp SPACE    &kp RET   &mo 2   &kp BSPC  &kp RGUI
             >;
 
