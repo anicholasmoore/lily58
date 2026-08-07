@@ -11,7 +11,7 @@ stock-style QWERTY keymap and leaves the optional encoder off.
 - GitHub Actions builds for nice!view-equipped `lily58_left`, `lily58_right`,
   and `settings_reset` firmware.
 - ZMK Studio support over USB and Bluetooth on the left/central half.
-- A three-layer starter keymap, five Bluetooth profiles, and three additional
+- Four source-controlled layers, five Bluetooth profiles, and three additional
   layers reserved for ZMK Studio.
 - Explicit USB/Bluetooth output controls and an optional EC11 encoder toggle.
 
@@ -123,9 +123,17 @@ not enable the Lily58 SSD1306 display option for this build.
 
 ## Keymap overview
 
-- **Base:** QWERTY, with momentary Lower and Raise thumb keys.
+- **Auto Shift:** Moonlander-inspired QWERTY. The left pinky column is Escape,
+  Backspace, Shift, and Control. Letters, numbers, and punctuation shift when
+  held.
+- **Standard:** The same physical layout as Auto Shift, using normal key
+  presses instead.
+- **Left layer thumb:** tap to toggle Auto Shift/Standard; hold for Lower.
+- **Right layer thumb:** tap to lock/unlock Raise; hold for momentary Raise.
 - **Lower:** Bluetooth profiles, output selection, function keys, symbols, and
   external power controls.
-- **Raise:** number/function duplication, arrows, and bracket/operator keys.
+- **Raise:** function/operator keys plus an `I/J/K/L` inverted-T arrow cluster.
+
+The first right thumb key sends Enter when tapped and Tab when held.
 
 ZMK configuration reference: <https://zmk.dev/docs/>.

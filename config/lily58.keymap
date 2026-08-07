@@ -34,18 +34,46 @@
             require-prior-idle-ms = <80>;
         };
 
-        raise_next: raise_next_layer {
+        lower_mode: lower_mode {
             compatible = "zmk,behavior-hold-tap";
-            display-name = "Raise / Next Layer";
-            bindings = <&mo>, <&to>;
+            display-name = "Lower / Auto Shift Toggle";
+            bindings = <&mo>, <&tog>;
 
             #binding-cells = <2>;
 
-            // Hold for Raise; tap to move to the next persistent layer.
+            // Hold for Lower; tap to toggle the Standard layer over Auto Shift.
 
             tapping-term-ms = <200>;
             quick-tap-ms = <0>;
             flavor = "hold-preferred";
+        };
+
+        raise_nav: raise_nav {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "Raise Momentary / Toggle";
+            bindings = <&mo>, <&tog>;
+
+            #binding-cells = <2>;
+
+            // Hold for momentary Raise; tap to lock or unlock Raise.
+
+            tapping-term-ms = <200>;
+            quick-tap-ms = <0>;
+            flavor = "hold-preferred";
+        };
+
+        enter_tab: enter_tab {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "Enter / Tab";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+
+            // Tap for Enter; hold for Tab.
+
+            tapping-term-ms = <200>;
+            quick-tap-ms = <0>;
+            flavor = "tap-preferred";
         };
     };
 
@@ -57,17 +85,17 @@
 
             // ------------------------------------------------------------------------------------------------------------
             // |  ESC  |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   |   `   |
-            // |  TAB  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   |   -   |
-            // | CTRL  |  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   |   '   |
-            // | SHIFT |  Z  |  X  |  C   |  V   |  B   |   [    |  |   ]   |  N   |  M    |  ,    |  .   |   /   | SHIFT |
-            //                     | ALT  | GUI  | LOWER|  SPACE |  | ENTER | RAISE| BSPC  | GUI   |
+            // | BSPC  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   |   -   |
+            // | SHIFT |  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   |   '   |
+            // | CTRL  |  Z  |  X  |  C   |  V   |  B   |   [    |  |   ]   |  N   |  M    |  ,    |  .   |   /   |  DEL  |
+            //                     | ALT  | GUI  | MODE |  SPACE |  |ENT/TAB|  NAV |  =/+  |  \\|  |
 
             bindings = <
 &kp ESC         &auto_shift LS(N1) N1  &auto_shift LS(N2) N2  &auto_shift LS(N3) N3  &auto_shift LS(N4) N4  &auto_shift LS(N5) N5                                                          &auto_shift LS(N6) N6    &auto_shift LS(N7) N7        &auto_shift LS(N8) N8                &auto_shift LS(N9) N9    &auto_shift LS(N0) N0      &auto_shift LS(GRAVE) GRAVE
 &kp BACKSPACE   &auto_shift LS(Q) Q    &auto_shift LS(W) W    &auto_shift LS(E) E    &auto_shift LS(R) R    &auto_shift LS(T) T                                                            &auto_shift LS(Y) Y      &auto_shift LS(U) U          &auto_shift LS(I) I                  &auto_shift LS(O) O      &auto_shift LS(P) P        &auto_shift LS(MINUS) MINUS
 &kp LEFT_SHIFT  &auto_shift LS(A) A    &auto_shift LS(S) S    &auto_shift LS(D) D    &auto_shift LS(F) F    &auto_shift LS(G) G                                                            &auto_shift LS(H) H      &auto_shift LS(J) J          &auto_shift LS(K) K                  &auto_shift LS(L) L      &auto_shift LS(SEMI) SEMI  &auto_shift LS(SQT) SQT
 &kp LCTRL       &auto_shift LS(Z) Z    &auto_shift LS(X) X    &auto_shift LS(C) C    &auto_shift LS(V) V    &auto_shift LS(B) B    &auto_shift LS(LBKT) LBKT    &auto_shift LS(RBKT) RBKT  &auto_shift LS(N) N      &auto_shift LS(M) M          &auto_shift LS(COMMA) COMMA          &auto_shift LS(DOT) DOT  &auto_shift LS(FSLH) FSLH  &kp DELETE
-                                                              &kp LALT               &kp LGUI               &mo LOWER              &kp SPACE                    &mt RET TAB                &raise_next RAISE LOWER  &auto_shift LS(EQUAL) EQUAL  &auto_shift LS(BACKSLASH) BACKSLASH
+                                                              &kp LALT               &kp LGUI               &lower_mode LOWER STANDARD  &kp SPACE                    &enter_tab TAB RET         &raise_nav RAISE RAISE  &auto_shift LS(EQUAL) EQUAL  &auto_shift LS(BACKSLASH) BACKSLASH
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
@@ -76,14 +104,14 @@
         standard_layer {
             display-name = "Standard";
 
-            // Normal QWERTY fallback: no Auto Shift on letters, numbers, or punctuation.
+            // Same physical layout as Auto Shift, with normal key presses instead.
 
             bindings = <
-&kp ESC        &kp N1  &kp N2  &kp N3    &kp N4    &kp N5                            &kp N6                       &kp N7    &kp N8     &kp N9   &kp N0    &kp GRAVE
-&kp TAB        &kp Q   &kp W   &kp E     &kp R     &kp T                             &kp Y                        &kp U     &kp I      &kp O    &kp P     &kp MINUS
-&kp BACKSPACE  &kp A   &kp S   &kp D     &kp F     &kp G                             &kp H                        &kp J     &kp K      &kp L    &kp SEMI  &kp SQT
-&kp LCTRL      &kp Z   &kp X   &kp C     &kp V     &kp B      &kp LBKT     &kp RBKT  &kp N                        &kp M     &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
-                               &kp LALT  &kp LGUI  &mo LOWER  &kp SPACE    &kp RET   &raise_next RAISE AUTOSHIFT  &kp BSPC  &kp RGUI
+&kp ESC         &kp N1  &kp N2  &kp N3    &kp N4    &kp N5                            &kp N6                       &kp N7    &kp N8     &kp N9   &kp N0    &kp GRAVE
+&kp BACKSPACE   &kp Q   &kp W   &kp E     &kp R     &kp T                             &kp Y                        &kp U     &kp I      &kp O    &kp P     &kp MINUS
+&kp LEFT_SHIFT  &kp A   &kp S   &kp D     &kp F     &kp G                             &kp H                        &kp J     &kp K      &kp L    &kp SEMI  &kp SQT
+&kp LCTRL       &kp Z   &kp X   &kp C     &kp V     &kp B      &kp LBKT     &kp RBKT  &kp N                        &kp M     &kp COMMA  &kp DOT  &kp FSLH  &kp DELETE
+                                &kp LALT  &kp LGUI  &lower_mode LOWER STANDARD  &kp SPACE    &enter_tab TAB RET  &raise_nav RAISE RAISE  &kp EQUAL  &kp BACKSLASH
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
@@ -104,7 +132,7 @@
 &kp F1      &kp F2            &kp F3             &kp F4             &kp F5        &kp F6                          &kp F7                   &kp F8     &kp F9     &kp F10       &kp F11       &kp F12
 &kp GRAVE   &kp EXCL          &kp AT             &kp HASH           &kp DOLLAR    &kp PRCNT                       &kp CARET                &kp AMPS   &kp ASTRK  &kp LPAR      &kp RPAR      &kp TILDE
 &trans      &ext_power EP_ON  &ext_power EP_OFF  &ext_power EP_TOG  &trans        &trans        &trans    &trans  &trans                   &kp MINUS  &kp PLUS   &kp LBRC      &kp RBRC      &kp PIPE
-                                                 &trans             &trans        &trans        &trans    &trans  &raise_next RAISE RAISE  &trans     &trans
+                                                 &trans             &trans        &trans        &trans    &trans  &raise_nav RAISE RAISE  &trans     &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
@@ -115,17 +143,17 @@
 
             // ------------------------------------------------------------------------------------------------------------
             // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-            // |   `   |  1  |  2  |  3   |  4   |  5   |                   |  6   |   7   |   8   |  9   |   0   |       |
-            // |  F1   |  F2 |  F3 |  F4  |  F5  |  F6  |                   |      |   <-  |   v   |  ^   |  ->   |       |
+            // |   `   |  1  |  2  |  3   |  4   |  5   |                   |  6   |   7   |   ^   |  9   |   0   |       |
+            // |  F1   |  F2 |  F3 |  F4  |  F5  |  F6  |                   |      |   <-  |   v   |  ->  |       |       |
             // |  F7   |  F8 |  F9 |  F10 |  F11 |  F12 |        |  |       |  +   |   -   |   =   |  [   |   ]   |   \\  |
             //                     |      |      |      |        |  |       |      |       |       |
 
             bindings = <
 &trans     &trans  &trans  &trans   &trans   &trans                     &trans                      &trans     &trans     &trans    &trans     &trans
-&kp GRAVE  &kp N1  &kp N2  &kp N3   &kp N4   &kp N5                     &kp N6                      &kp N7     &kp N8     &kp N9    &kp N0     &trans
-&kp F1     &kp F2  &kp F3  &kp F4   &kp F5   &kp F6                     &trans                      &kp LEFT   &kp DOWN   &kp UP    &kp RIGHT  &trans
+&kp GRAVE  &kp N1  &kp N2  &kp N3   &kp N4   &kp N5                     &kp N6                      &kp N7     &kp UP     &kp N9    &kp N0     &trans
+&kp F1     &kp F2  &kp F3  &kp F4   &kp F5   &kp F6                     &trans                      &kp LEFT   &kp DOWN   &kp RIGHT  &trans     &trans
 &kp F7     &kp F8  &kp F9  &kp F10  &kp F11  &kp F12  &trans    &trans  &kp KP_PLUS                 &kp MINUS  &kp EQUAL  &kp LBKT  &kp RBKT   &kp BSLH
-                           &trans   &trans   &trans   &trans    &trans  &raise_next RAISE STANDARD  &trans     &trans
+                           &trans   &trans   &trans   &trans    &trans  &tog RAISE  &trans     &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
